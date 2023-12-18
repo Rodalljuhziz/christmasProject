@@ -1,0 +1,17 @@
+{
+    "name": "walcz/christmas-project",
+    "autoload": {
+        "psr-4": {
+            "Application\\": "Application/"
+        }
+    },
+    "authors": [
+        {
+            "name": "adrien",
+            "email": "walczak.adrien.pro@gmail.com"
+        }
+    ],
+    "require": {
+        "monolog/monolog": "1.25.1"
+    }
+}
