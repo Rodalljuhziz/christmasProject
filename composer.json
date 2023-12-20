@@ -12,6 +12,17 @@
         }
     ],
     "require": {
-        "monolog/monolog": "1.25.1"
+        "monolog/monolog": "1.25.1",
+        "ext-json": "*",
+        "mikehaertl/php-pdftk": "^0.13.1"
+    },
+    "scripts": {
+        "test": [
+            "./vendor/bin/peridot Test/",
+            "./vendor/bin/phpcs --standard=psr2 Application/"
+        ]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5"
     }
 }

@@ -10,6 +10,7 @@ class Router
             return;
         }
 
+
         self::on($app_route, $app_callback);
     }
 
@@ -33,6 +34,7 @@ class Router
             // first value is normally the route, lets remove it
             array_shift($is_matched);
             // Get the matches as parameters
+
             $paramtrs = array_map(function ($paramtr) {
                 return $paramtr[0];
             }, $is_matched);
