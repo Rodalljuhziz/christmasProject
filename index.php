@@ -6,27 +6,14 @@ use Application\Controller\Router;
 use Application\Controller\Request;
 use Application\Controller\Response;
 use Application\Model\Posts;
-
-use mikehaertl\pdftk\Pdf;
-
-Posts::load();
+use Application\Controller\PdfFiller;
 
 Router::get('/post', function (Request $request, Response $response) {
 
-    $json= json_decode(file_get_contents('ressources/data.json'), true);
-    $pdf = new Pdf('ressources/cerfa_entreprise.pdf');
-    var_dump($json);
-    $result = $pdf->fillForm($json)
-        ->needAppearances()
-        ->saveAs('ressources/filled.pdf');
-
-    if ($result === false){
-        $error = $pdf->getError();
-        var_dump($error);
-    }
-    //var_dump($result);
-
-    $response->toJSON(Posts::all());
+    $pdf = new PdfFiller();
+    $pdf->createPdf();
+    $pdf->testData();
+   // $response->toJSON(Posts::all());
 });
 
 Router::post('/post', function (Request $request, Response $response) {

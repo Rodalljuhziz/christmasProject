@@ -1,0 +1,160 @@
+{
+  "asso_name":{
+    "type": "string",
+    "mandatory": true,
+    "field": "a2"
+  },
+  "asso_siren":{
+    "type": "string",
+    "mandatory": true,
+    "field": "a4"
+  },
+  "asso_streetNumber":{
+  "type": "string",
+  "mandatory": true,
+  "field": "a5"
+},
+  "asso_street":{
+    "type": "string",
+    "mandatory": true,
+    "field": "a6"
+  },
+  "asso_city":{
+    "type": "string",
+    "mandatory": true,
+    "field": "a6"
+  },
+  "asso_postcode":{
+    "type": "string",
+    "mandatory": true,
+    "field": "a8"
+  },
+  "asso_country":{
+    "type": "string",
+    "mandatory": true,
+    "field": "a9"
+  },
+  "asso_type": {
+    "type": "string",
+    "mandatory": true,
+    "dependency": {
+      "field": "type",
+      "values": {
+        "LOI1901": {
+          "CAC0": 1,
+          "CAC1": 1
+        },
+        "FRUP": {
+          "CAC0": 2,
+          "CAC1": 1
+        },
+        "FRUP_MOZEL": {
+          "CAC0": 2,
+          "CAC1": 1
+        },
+        "FUNIV": {
+          "CAC0": 3,
+          "CAC1": 1
+        },
+        "FENT": {
+          "CAC0": 4,
+          "CAC1": 1
+        },
+        "MDF": {
+          "CAC0": 5,
+          "CAC1": 1
+        },
+        "OSBL": {
+          "CAC0": 6,
+          "CAC1": 1
+        },
+        "AUTRES": {
+          "CAC0": 7,
+          "CAC1": 1
+        },
+        "ASS_CULT": {
+          "CAC2": 1
+        },
+        "ENSSUP": {
+          "CAC3": 1
+        },
+        "ENSSUPCONSULAIRE": {
+          "CAC4": 1
+        },
+        "SOPP": {
+          "CAC5": 1
+        },
+        "ENSSUPCINE": {
+          "CAC6": 1
+        },
+        "ASS_OPP": {
+          "CAC7": 1
+        },
+        "MECENE": {
+          "CAC8": 1
+        },
+        "ETATACT": {
+          "CAC9": 1
+        },
+        "SNPMCOM": {
+          "CAC10": 1
+        },
+        "SNPMMUSIC": {
+          "CAC11": 1
+        },
+        "SNPMCOM": {
+          "CAC12": 1
+        },
+        "ONDPAT": {
+          "CAC13": 1
+        },
+        "FONDDOTATION": {
+          "CAC14": 1
+        },
+        "FINANCEENT": {
+          "CAC15": 1
+        },
+        "FEDERER": {
+          "CAC16": 1
+        },
+        "SAUVEGARDE": {
+          "CAC17": 1
+        },
+        "UE": {
+          "CAC18": 1
+        }
+      }
+    }
+  },
+  "type": "date",
+  "mandatory": {
+    "type": ["FRUP", "FRUP_MOZEL", "FUNIV", "SOPP", "FONDPAT","FINANCEENT","FEDERER"]
+  },
+  "dependency": {
+    "field": "type",
+    "values": {
+      "FRUP": {
+        "d12": "d/m/y",
+        "d13": "d/m/y"
+      },
+      "FRUP_MOZEL": {
+        "d14": "d/m/y"
+      },
+      "FUNIV": {
+        "d14": "d/m/y"
+      },
+      "SOPP": {
+        "a14": "d/m/y"
+      },
+      "FONDPAT": {
+        "a15": "d/m/y"
+      },
+      "FINANCEENT": {
+        "a15": "d/m/y"
+      },
+      "FEDERER": {
+        "a15": "d/m/y"
+      }
+    }
+  }
+}
