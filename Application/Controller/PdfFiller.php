@@ -11,26 +11,30 @@ class PdfFiller
     public static $TYPE_INDIVIDUAL = "particulier";
     public static $TYPE_SOCIETY = "entreprise";
     public static $DATE_FORMAT = 'Y-m-d';
+    const PATH = 'C:/Users/walcz/OneDrive/Desktop/christmasProject';
+
+
+
     public static function allTypes(): array
     {
         return [
-            self::$TYPE_INDIVIDUAL =>  'ressources/cerfa_particulier.pdf.pdf',
-            self::$TYPE_SOCIETY => 'ressources/cerfa_entreprise.pdf.pdf',
+            self::$TYPE_INDIVIDUAL =>  'ressources/cerfa_particulier.pdf',
+            self::$TYPE_SOCIETY => 'ressources/cerfa_entreprise.pdf',
         ];
     }
-    public function validate($client)
+    public function validate($client): array
     {
-        var_dump($client["type_cerfa"]);
-        if (!in_array($client["type_cerfa"], array_keys(self::allTypes()))) {
+        $result = [];
+        $model = json_decode(file_get_contents(__DIR__.'/../Json/model.json'), true);
 
+        if (!in_array($client['type_cerfa'], array_keys(self::allTypes()))) {
             throw new \Exception("incompatible type for field 'type'");
         }
-        $result = [];
-        $model = json_decode(file_get_contents(__DIR__.'/../Json/data.json'), true);
 
         foreach($model as $field => $rules)
         {
-            $value = $this->{$field};
+            $value = $client[$field];
+
             $mandatory = isset($rules['mandatory']) && $rules['mandatory'] === true && !$value;
             $dependency = isset($rules['dependency']) && (in_array($client[$rules['dependency']['field']], array_keys($rules['dependency']['values'])) && !$value);
             if ($mandatory || $dependency) {
@@ -43,6 +47,7 @@ class PdfFiller
                 if ($rules['type'] !== 'date' && gettype($value) !== $rules['type']) {
                     throw new \Exception("incompatible type for field '$field'");
                 }
+
                 if (isset($rules['dependency'])) {
                     $dependency = $rules['dependency']['field'];
                     if (isset($rules['dependency']['values'][$client[$dependency]]))
@@ -60,20 +65,21 @@ class PdfFiller
         }
         return $result;
     }
-    public static function createPdf()
+    public function createPdf($jsonArray, $pathCreation)
     {
-        $json= json_decode(file_get_contents(__DIR__.'/../Json/data.json'), true);
-        $pdf = new Pdf('ressources/cerfa_entreprise.pdf');
-        $result = $pdf->fillForm($json)
-            ->needAppearances()
-            ->saveAs('ressources/filled.pdf');
 
-        $pdf2 = new Pdf('ressources/cerfa_entreprise.pdf');
+        $validation = $this->validate($jsonArray);
+        $pdf = new Pdf(self::PATH .'/ressources/cerfa_entreprise.pdf');
+        $result = $pdf->fillForm($validation)
+            ->needAppearances()
+            ->saveAs($pathCreation);
+
+        /* $pdf2 = new Pdf('ressources/cerfa_entreprise.pdf');
         $data = $pdf2->getDataFields();
         $arr = (array) $data;
         $arr = $data->__toArray();
 
-        print("<pre>".print_r($arr,true)."</pre>");
+        print("<pre>".print_r($arr,true)."</pre>");*/
 
         if ($result === false){
             $error = $pdf->getError();
@@ -131,7 +137,7 @@ class PdfFiller
         echo json_encode( $this->validate($client2) ) ." >> Done". PHP_EOL;
         echo json_encode( $this->validate($client3) ) ." >> Done". PHP_EOL;
     }
-    private function createSignature(string $id, string $base64Signature)
+    private function createSignature(string $id, string $base64Signature): string
     {
         $path = "Signatures/signature_{$id}";
         $png = $path .'.png';
@@ -155,9 +161,7 @@ class PdfFiller
         $result = $template->flatten() // to compress
         ->multistamp($signature) // to add signature
         ->saveAs('PdfGenerated/' . $filename);
-        if ($result === false) {
-            throw new \Exception($template->getError());
-        }
+
         $this->file = $filename;
     }
     public function isValidDate($date, $format = 'Y-m-d'): bool

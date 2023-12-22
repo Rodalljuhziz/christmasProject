@@ -3,9 +3,14 @@
     "type" : "string",
     "mandatory" : true
   },
+  "num_ordre" : {
+    "type" : "string",
+    "mandatory" : false,
+    "field" : "a1"
+  },
   "asso_name":{
     "type": "string",
-    "mandatory": true,
+    "mandatory": false,
     "field": "a3"
   },
   "asso_street":{
@@ -15,12 +20,11 @@
   },
   "asso_siren":{
     "type": "string",
-    "mandatory": true,
+    "mandatory": false,
     "field": "a4"
   },
   "asso_type": {
     "type": "string",
-    "mandatory": true,
     "dependency": {
       "field": "asso_type",
       "values": {

@@ -41,8 +41,6 @@ class Request
 
         // Receive the RAW post data.
         $post_content = trim(file_get_contents("php://input"));
-        $p_decoded = json_decode($post_content);
-
-        return $p_decoded;
+        return json_decode($post_content);
     }
 }
